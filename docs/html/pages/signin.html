@@ -1,0 +1,71 @@
+<div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+    <h2 align="center" class="i18n">Sign in to MLDB.ai</h2>
+
+    <p class="blurb i18n" align="center">Get instant access to an MLDB session to try the demos.</p>
+</div>
+
+<div class="col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+  <div class="form-group">
+    <label for="inputEmail" class="i18n">Email address</label>
+    <input type="email" class="form-control i18n" id="inputEmail" placeholder="Email">
+  </div>
+  <div class="form-group">
+    <label for="inputPassword" class="i18n">Password</label>
+    <input type="password" class="form-control i18n" id="inputPassword" placeholder="Password">
+  </div>
+  <div class="checkbox" align="center">
+    <label>
+        <input id="remember" type="checkbox" value="remember-me"> <span class="i18n">Remember me</span>
+    </label>
+  </div>
+
+    <button class="btn btn-lg btn-primary btn-block i18n" onclick="signIn();">Sign in</button>
+    <br />
+    <p align="center"><span class="i18n">Don't have an account?</span> <a href="#" role="button" data-target="signup" class="i18n">Sign up</a>.</p>
+    <p align="center"><span class="i18n">Forgot your password?</span> <a href="#" role="button" data-target="request_pwd_reset" class="i18n">Reset it</a>.</p>
+</div>
+
+<script>
+    $(function() {
+        $("#inputEmail").focus();
+        $("input").on("keypress", function (event) {
+            if (event.keyCode == 13) {
+                signIn();
+            }
+        });
+    });
+
+    function signIn() {
+        function onSuccess(data) {
+            if ($("#remember").prop("checked")) {
+                $.cookie.raw = true;
+                $.cookie("token", $.cookie("token"), {expires: 30});
+            }
+            mixpanel.track("Logged in");
+            updateLayout(data.user);
+        }
+        function onError(jqXhr, textStatus, errorThrown) {
+            mixpanel.track("Failed logged in");
+            if (jqXhr.status == 401) {
+                flashError("Incorrect email/password combo");
+                jqXhr.preventDefault = true;
+            }
+        }
+        var settings = {
+            type: 'POST',
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify({
+                email : $("#inputEmail").val(),
+                password : $("#inputPassword").val()
+            }),
+            success: onSuccess,
+            error: onError
+        };
+
+        flashReset();
+        $.ajax("/user/authenticate", settings);
+        return false;
+    }
+
+</script>

@@ -1,0 +1,79 @@
+<div class="col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+    <h2 align="center">Password reset</h2>
+
+    <input type="hidden" id="token"/>
+    <input type="hidden" id="inputEmail">
+    <div class="form-group">
+        <label for="inputPassword">New Password</label>
+        <input type="password" class="form-control" id="inputPassword" placeholder="8 characters minimum">
+    </div>
+    <div class="form-group">
+        <label for="inputPasswordConfirm">Confirm New Password</label>
+        <input type="password" class="form-control" id="inputPasswordConfirm" placeholder="Must match above">
+    </div>
+
+
+    <button class="btn btn-lg btn-primary btn-block" onclick="resetPwd();">Save changes</button>
+    <br />
+    <p align="center">Remembered your password? <a href="#" role="button" data-target="signin">Sign in</a>.</p>
+</div>
+
+<script type="text/javascript">
+    $(function() {
+        $("#inputEmail").val(getParameterByName("email"));
+        $("#token").val(getParameterByName("token"));
+        $("#inputPassword").focus();
+        $("input").change(function() {
+            if ($.inArray(this, $("input:invalid")) > -1) {
+                $(this).parents("tr:first").addClass("has-error");
+            }
+            else {
+                $(this).parents("tr:first").removeClass("has-error");
+            }
+        }).on("keypress", function(event) {
+            if (event.keyCode == 13) {
+                resetPwd();
+            }
+        });
+    });
+
+    function resetForm() {
+        flashReset();
+        $("#inputEmail").parents("tr:first").removeClass("has-error");
+    }
+
+    function resetPwd() {
+        function onSuccess(data) {
+            flashSuccess("Password updated.");
+            updateLayout(data.user, {keepMsg : true});
+        }
+        function onError(jqXhr, textStatus, errorThrown) {
+            if (jqXhr.responseText.indexOf("email") > -1) {
+                $("#inputEmail").parents("tr:first").addClass("has-error");
+            }
+            if (jqXhr.responseText.indexOf("password") > -1) {
+                $("#inputPassword").parents("tr:first").addClass("has-error");
+                $("#inputPasswordConfirm").parents("tr:first").addClass("has-error");
+            }
+            flashError(jqXhr.responseText);
+        }
+        var settings = {
+            type: 'PUT',
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify({
+                email : $("#inputEmail").val(),
+                token : $("#token").val(),
+                password : $("#inputPassword").val(),
+                password_confirmation : $("#inputPasswordConfirm").val()
+            }),
+            success: onSuccess,
+            error: onError
+        };
+
+        resetForm();
+        $.ajax("/user/password/reset", settings);
+
+        return false;
+    }
+</script>

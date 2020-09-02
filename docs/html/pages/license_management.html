@@ -1,0 +1,193 @@
+<div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 hidden" id="license_form">
+    <h2 align="center">Create a free trial license key</h2>
+
+    <p class="blurb">License keys are used to activate instances of the MLDB Enterprise Edition running on your own hardware. See the <a href="http://docs.mldb.ai/doc/#builtin/Running.md.html" target="_blank">Running MLDB documentation</a> for details.</p>
+
+    <div class="form-group">
+        <label for="email">Email address</label>
+        <div class="input-group" id="emailInputGroup">
+            <input type="text" class="form-control" id="email" disabled>
+            <div class="input-group-addon"><span class="glyphicon" aria-hidden="true" id="verificationIcon"></span> <span id="verificationText"></span></div>
+        </div>
+
+        <p class="help-block hidden" id="emailHelpText">
+        You should have received an address verification email with a link to click on to verify your address. <a href="#" onclick="sendVerifyEmail('license_management');">Resend address verification email</a>. </p>
+
+        <p class="help-block">To use a different address, please <a href="#" role="button" data-target="my_profile">update your profile</a>. </p>
+
+    </div>
+
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input id="name" class="form-control" placeholder="Your full name (required)">
+    </div>
+
+    <div class="form-group">
+        <label for="company">Affiliation</label>
+        <input id="company" class="form-control" placeholder="Company, school or institution (optional)">
+    </div>
+
+    <div class="checkbox">
+        <p class="help-block">The MLDB Enterprise Edition, which includes the closed-source MLDB Pro Plugin, is being licensed to you by Datacratic Inc. and is not being sold. This software is provided under the <a href="http://docs.mldb.ai/resources/MLDB_License.pdf" target="_blank"><em>MLDB End User License Agreement, Non-Commercial Software License version 1.0</em></a>, which specifies what you may do with the software and contains important limitations on representations, warranties, conditions, remedies, and liabilities.</p>
+        <label>
+            <input type="checkbox" id="termsAccepted"> I accept the terms of the <em>MLDB End User License Agreement, Non-Commercial Software License version 1.0</em> (required)
+        </label>
+    </div>
+
+
+
+    <button id="requestLicenseBtn" class="btn btn-lg btn-primary btn-block">Create license key
+    </button>
+</div>
+
+<div class="hidden" id="licenses" >    
+<div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+    <h2 align="center">My License Keys</h2>
+
+    <p>The license keys below can be used to activate instances of the MLDB Enterprise Edition running on your own hardware.</p> 
+    <p>See the <a href="http://docs.mldb.ai/doc/#builtin/Running.md.html" target="_blank">Running MLDB documentation</a> for details.</p>
+
+    <br />
+</div>
+    <table class="table table-striped ">
+        <thead>
+            <tr>
+                <th style="text-align: center;">License type</th>
+                <th style="text-align: center;">Creation date</th>
+                <th style="text-align: center;">Email address</th>
+                <th style="text-align: center;">License key</th>
+            </tr>
+        </thead>
+        <tbody id="licenses_body">
+        </tbody>
+    </table>
+</div>
+
+<script id="licenseLineTmpl" type="text/x-handlebars-template">
+    <tr>
+        <td style="vertical-align: middle; text-align: center;"><a href="https://docs.mldb.ai/resources/MLDB_License.pdf" target="_blank">Non-commercial License</a> <br /> (Free Trial)</td>
+        <td style="vertical-align: middle; text-align: center;">{{created_on}}</td>
+        <td style="vertical-align: middle; text-align: center;">{{email}}</td>
+        <td style="vertical-align: middle;"><pre align='left' style="width: 325px; margin: 0 auto;">{{license}}</pre></td>
+    </tr>
+</script>
+<script type="text/javascript">
+    function displayLicense(licenses) {
+        $("#licenses").removeClass("hidden");
+        var tmpl = Handlebars.compile($("#licenseLineTmpl").html());
+        for (var i in licenses) {
+            licenses[i]["created_on"] = licenses[i]["created_on"].split("T")[0];
+            $("#licenses_body").append(tmpl(licenses[i]));
+        }
+    }
+
+    function updateUserInfo() {
+        flashReset();
+        $("#userInformation .has-error").removeClass("has-error");
+
+        function onSuccess(data) {
+            requestLicense();
+        }
+        function onError(jqXhr, textStatus, errorThrown) {
+            if (jqXhr.status == 200) {
+                onSuccess(jqXhr.responseText);
+                return;
+            }
+            msg = jqXhr.responseText;
+            if (msg.indexOf("name") > -1) {
+                $("#name").parents("tr:first").addClass("has-error");
+            }
+            if (msg.indexOf("company") > -1) {
+                $("#company").parents("tr:first").addClass("has-error");
+            }
+            flashError(msg);
+        }
+
+        var settings = {
+            type: 'PUT',
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify({
+                email : $("#email").val(),
+                name : $("#name").val(),
+                company : $("#company").val()
+            }),
+            success: onSuccess,
+            error: onError
+        };
+        $.ajax("/user", settings);
+    }
+
+    function requestLicense() {
+        if (!$("#termsAccepted").prop("checked")) {
+            flashError("You must accept the terms to create a free trial license key.");
+            return;
+        }
+        flashReset();
+        function onSuccess(data, textStatus, jqXhr) {
+            flashSuccess("License created");
+            $("#license_form").addClass("hidden");
+            displayLicense(data);
+        }
+        function onError(jqXhr, textStatus, errorThrown) {
+            var msg = "";
+            if (jqXhr.status == 400) {
+                try {
+                    msg = $.parseJSON(jqXhr.responseText).msg;
+                }
+                catch (err) {
+                }
+            }
+            if (msg == "") {
+                msg = jqXhr.responseText;
+            }
+            flashError(msg);
+        }
+
+        var settings = {
+            type: 'POST',
+            contentType: "application/json",
+            dataType: "json",
+            data: "{}",
+            success: onSuccess,
+            error: onError
+        };
+        $.ajax("/user/license_requests", settings);
+    }
+
+    function setEmailState(verified) {
+        if (verified) {
+            $("#emailInputGroup").addClass("has-success");
+            $("#verificationIcon").addClass("glyphicon-ok");
+            $("#verificationText").html("Verified");
+        }
+        else {
+            $("#emailInputGroup").addClass("has-warning");
+            $("#verificationIcon").addClass("glyphicon-warning-sign");
+            $("#verificationText").html("Unverified");
+            $("#emailHelpText").removeClass("hidden");
+        }
+    }
+
+    $(function() {
+
+        $("#requestLicenseBtn").click(function() {
+            updateUserInfo();
+        });
+
+        $.get('/user', function(data) {
+            $("#email").val(data.email);
+            $("#name").val(data.name);
+            $("#company").val(data.company);
+            setEmailState(data.confirmed_at);
+
+            $.getJSON("/user/licenses", function(data) {
+                if (data.length) {
+                    displayLicense(data);
+                    return;
+                }
+                $("#license_form").removeClass("hidden");
+            });
+        });
+    });
+</script>

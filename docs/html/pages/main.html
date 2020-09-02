@@ -1,0 +1,307 @@
+<div class="starter-template">
+    <div id="verificationMsg" class="hidden alert alert-danger col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3" role="alert" style="margin-top: 10px;">
+        We emailed you to verify your address.
+        Please click on the link it contains to verify your address or click
+        <button id="requestValidationEmail" class="btn btn-xs btn-default">
+            here
+        </button>
+        to have us resend the email.
+    </div>
+    <div id="verificationBouncedMsg" class="hidden alert alert-danger col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3" role="alert" style="margin-top: 10px;">
+        We tried to email you to verify your address but the email bounced.
+        Please click
+        <button class="btn btn-xs btn-default" onclick="loadPage('my_profile');">
+            here
+        </button>
+        to update your email address.
+    </div>
+
+    <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3" role="alert" style="margin-top: 10px;">
+        <button id="launchBtn" class="btn btn-lg btn-success" onclick="launch();">
+            <span class="glyphicon glyphicon-play-circle" aria-hidden="true"></span>
+            <span>Launch MLDB now</span>
+        </button><br /><br />
+    <p align="center">Want to run MLDB yourself? <a href="#" role="button" data-target="license_management">Create a free trial license key</a>.</p>
+    </div>
+
+    <div class="col-md-8 col-md-offset-2 hidden" id="my-sessions" role="alert" style="margin-top: 10px;">
+        <h2 class="form-signin-heading">My Sessions</h2>
+    <table id="instances" class="table table-striped" style="margin: auto;">
+        <thead>
+            <tr>
+                <th style="text-align: center;">Session ID</th>
+                <th></th>
+                <th style="text-align: center;">Status</th>
+                <th style="text-align: center;">Expires</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    </div>
+
+</div>
+
+<div id="launchModal" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Session Expiration and Saving Your Data</h4>
+      </div>
+      <div class="modal-body">
+        <p>The session you are about to start has a built-in expiry date, past which it
+        and <strong>any data held in memory or saved locally will disappear forever</strong>.</p>
+        <p>The time to expiry is indicated at the top of the screen in the Notebook interface, 
+        and you will be warned to <strong>save your data when you have 10 minutes left</strong>.</p>
+        <p>You may use the File menu in the Notebook interface to save any notebooks to your
+        workstation's hard drive (and you may re-upload them into another session later).</p>
+
+        <p>Any data held in memory should be saved to a file (e.g. via the <code>export.csv</code>)
+        procedure and then downloaded locally (and you may re-upload it into another session later).</p>
+
+        <p id="notebookParagraph">
+            You followed a link that will open the following notebook: <code id="notebookName"></code>
+        </p>
+      </div>
+      <div class="modal-footer">
+            <a id="letsGo" href="#" type="button" class="btn btn-default" target="_blank">
+                <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>
+              Got it, let's go!
+            </a>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div id="stopModal" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Warning: You are about to stop your session</h4>
+      </div>
+      <div class="modal-body">
+        <p>Stopping your session means that
+        <strong>any data held in memory or saved locally will disappear forever</strong>.</p>
+
+        <p>You may use the File menu in the Notebook interface to save any notebooks to your
+        workstation's hard drive (and you may re-upload them into another session later).</p>
+
+        <p>Any data held in memory should be saved to a file (e.g. via the <code>export.csv</code>)
+        procedure and then downloaded locally (and you may re-upload it into another session later).</p>
+
+        <p>Do you wish to stop the session?<p>
+      </div>
+      <div class="modal-footer">
+            <button type="button" class="btn btn-default cancel">
+                Cancel
+            </button>
+            <button type="button" class="btn btn-danger stop" style="color: white;">
+                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                Stop session
+            </button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script id="instanceLineTemplate" type="text/x-handlebars-template">
+    <tr>
+        <td>{{id}}</td>
+        <td class="auto-refresh-hide">
+            {{#if url}}
+                <a href="{{url}}" type="button" class="btn btn-default btn-xs" target="_blank">
+                    <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>
+                    Open session
+                </a>
+                <button type="button" class="btn btn-danger btn-xs prompt-stop">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    Stop session
+                </button>
+            {{/if}}
+        </td>
+        <td class="auto-refresh-expires"></td>
+        <td class="auto-refresh-moment"></td>
+    </tr>
+</script>
+<script type="text/javascript">
+    $(function() {
+        $("#launchModal").modal({show: false});
+        refreshActivities();
+
+        $("#stopModal button.cancel").on("click", function() {
+            $("#stopModal").modal("hide");
+        });
+        $("body").on("click", "button.prompt-stop", function() {
+            $("#stopModal").modal('show').data(
+                "slotId",
+                $(this).parents("tr:first").data("slotId"));
+
+            var tr = $(this).parents("tr:first");
+
+            $("#stopModal button.stop").off("click").on("click", function() {
+                var slotId = $("#stopModal").data("slotId");
+                function onSuccess() {
+                    tr.data("date", new Date(new Date() - 1000));
+                    update(tr);
+                    $("#stopModal").modal("hide");
+                }
+                function onError(jqXhr, textStatus, errorThrown) {
+                    console.error("Slot release failed");
+                    console.debug(jqXhr);
+                }
+                var settings = {
+                    type: 'POST',
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: JSON.stringify({
+                        email : $("#inputEmail").val(),
+                        password : $("#inputPassword").val()
+                    }),
+                    success: onSuccess,
+                    error: onError
+                };
+                $.ajax("/slots/" + slotId + "/release", settings);
+            });
+        });
+
+        $.get("/user/email_verification/status", function(data) {
+            if (data.confirmation_email_state == "UNDELIVERABLE") {
+                $("#verificationBouncedMsg").removeClass("hidden");
+            }
+            else if (data.confirmation_email_state != "VERIFIED"
+                     && (data.confirmation_email_last_sent_on === null
+                         || new Date(data.confirmation_email_last_sent_on) * 1 + 7200000 < new Date()))
+            {
+                $("#verificationMsg").removeClass("hidden");
+            }
+        });
+
+        $("#requestValidationEmail").on("click", function() {
+            function onSuccess(data) {
+                $("#verificationMsg").removeClass("alert-danger")
+                    .addClass("alert-success").html(data.msg);
+                setTimeout(function() { $("#verificationMsg").addClass("hidden"); },
+                           3000);
+            }
+            function onError(jqXhr, textStatus, errorThrown) {
+                var msg = "";
+                if (jqXhr.status == 400) {
+                    try {
+                        msg = $.parseJSON(jqXhr.responseText).msg;
+                    } catch (exception) {
+                    }
+                }
+                if (!Boolean(msg)) {
+                    msg = jqXhr.responseText;
+                }
+                $("#verificationMsg").html(msg);
+            }
+            var settings = {
+                type: 'POST',
+                contentType: "application/json",
+                dataType: "json",
+                data: "{}",
+                success: onSuccess,
+                error: onError
+            };
+            $.ajax("/user/email_verification", settings);
+        });
+
+        if (startNotebook) {
+            launch(startNotebook);
+            startNotebook = null;
+        }
+    });
+
+    var tmpl = Handlebars.compile($("#instanceLineTemplate").html());
+
+    function urlToId(url) {
+        return url.split("/").pop();
+    }
+
+    function update(selector) {
+        updateTimes(selector);
+        updateExpires(selector);
+        updateHide(selector);
+    }
+
+    function addLine(data) {
+        data.id = data.id.substr(0, 8);
+        $("#instances tbody").append(tmpl(data));
+        var selector = $("#instances tbody tr:last");
+        selector.data({
+            date : new Date(data.expires),
+            slotId : data.slotId
+        });
+        update(selector);
+    }
+
+    function refreshActivities() {
+        var expiresOnStart = new Date(new Date() - 3600 * 1000 * 24);
+        var url = "/container_records?"
+                  + "_=" + (new Date() - 0)
+                  + "&user_id=" + userId
+                  + "&expires_on_start=" + expiresOnStart.toISOString()
+                  + "&_order=created_on"
+        $.get(url, function(data) {
+            if (data.length == 0) {
+                $("#my-sessions").addClass("hidden");
+            }
+            else {
+                $("#my-sessions").removeClass("hidden");
+                $("#instances tbody").html("");
+                for (var line of data) {
+                    var running = new Date() < new Date(line.expires_on);
+                    addLine({
+                        expires : line.expires_on,
+                        url : running ? line.url : "",
+                        id : urlToId(line.url),
+                        status : running ? 'running' : 'expired',
+                        slotId : line.slot_id
+                    });
+                }
+            }
+        });
+    }
+
+    function launch(notebook) {
+        mixpanel.track("Clicked launch instance");
+        function onSuccess(data) {
+            $("#my-sessions").removeClass("hidden");
+            data['slotId'] = data['id'];
+            data['id'] = urlToId(data['url']);
+            data.expires = data.end;
+            addLine(data);
+            var url = data['url'];
+            if (notebook) {
+                url += "/ipy/notebooks" + notebook;
+                $("#notebookParagraph").removeClass("hidden");
+                $("#notebookName").html(notebook);
+            }
+            else {
+                $("#notebookParagraph").addClass("hidden");
+            }
+            $("#letsGo").attr("href", url);
+            $("#launchModal").modal('show');
+        }
+        function onError(jqXhr) {
+            var msg = jqXhr.responseText ?
+                jqXhr.responseText : "The server did not respond.";
+            flashWarning(msg);
+        }
+        var settings = {
+            type: 'POST',
+            contentType: "application/json",
+            dataType: "json",
+            accepts: "text/html",
+            data: '{}',
+            success: onSuccess,
+            error: onError
+        };
+
+        flashReset();
+        $.ajax('/slots/reservation', settings);
+    }
+</script>

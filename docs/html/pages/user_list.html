@@ -1,0 +1,73 @@
+<h2 align="center">User List</h2>
+
+<table id="userList" class="table table-striped" style="margin: auto; max-width: none;">
+    <thead>
+        <tr>
+            <th>Email, Name, Affiliation</th>
+            <th>Signup date</th>
+            <th>Sessions</th>
+            <th>Last session date</th>
+            <th>License code date</th>
+            <th>Confirmation email state</th>
+            <th>Tier</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+<script id="userRowTemplate" type="text/x-handlebars-template">
+    <tr>
+        <td>
+         <a href="mailto:{{email}}" target="_blank">{{email}}</a>
+         {{#if name}}
+            <br />{{name}}
+            {{#if company}} ({{company}}) {{/if}}
+         {{else}}
+            {{#if company}} <br />({{company}}) {{/if}}
+         {{/if}}
+
+        </td>
+        <td title="{{signupOn}}">{{sortableDateMdy signupOn}}</td>
+        <td>{{numContainersLaunched}}</td>
+        <td title="{{lastContainerLaunchedOn}}">{{sortableDateMdy lastContainerLaunchedOn}}</td>
+        <td title="{{licenseCreatedOn}}">{{sortableDateMdy licenseCreatedOn}}</td>
+        <td>{{confirmationEmailState}}</td>
+        <td>{{tier}}</td>
+        <td>
+            <button class="btn btn-xs btn-default" onclick="loadPage('user_edit?id={{id}}');">
+                <span>Edit</span>
+            </button>
+        </td>
+    </tr>
+</script>
+<script type="text/javascript">
+    var tmpl = Handlebars.compile($("#userRowTemplate").html());
+    $(function () {
+        $.getJSON('/reports/users', function(data) {
+            for (idx in data) {
+                //data[idx].signupOn = idx;
+                $("#userList tbody").append(tmpl(data[idx]));
+            }
+            $("#userList").tablesorter({
+                theme : "bootstrap",
+                widthFixed: true,
+                headerTemplate : '{content} {icon}',
+                widgets : ["uitheme"],
+                sortList: [[3, 1]],
+                headers: {
+                    1 : {'sorter' : 'text'},
+                    3 : {'sorter' : 'text'},
+                    4 : {'sorter' : 'text'},
+                    7 : {'sorter' : false}
+                },
+                textSorter: {
+                    1 : nullableDateSorter,
+                    3 : nullableDateSorter,
+                    4 : nullableDateSorter
+                }
+            });
+        });
+    });
+</script>

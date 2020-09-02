@@ -1,0 +1,92 @@
+<div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+    <h2 align="center" class="i18n">Create an MLDB.ai account</h2>
+
+    <p class="blurb i18n">Your MLDB.ai account gives you instant access to a cloud-hosted MLDB session to try out the demos.</p>
+    <p class="blurb i18n">You can also create a free trial license code to evaluate the <a href="https://docs.mldb.ai/doc/#builtin/Running.md.html" target="_blank">MLDB Enterprise Edition</a> running on your own hardware.</p>
+</div>
+<div class="col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+  <div class="form-group">
+    <label for="inputEmail" class="i18n">Email address</label>
+    <input type="email" class="form-control i18n" id="inputEmail" placeholder="Email">
+  </div>
+  <div class="form-group">
+    <label for="inputPassword" class="i18n">Password</label>
+    <input type="password" class="form-control i18n" id="inputPassword" placeholder="8 characters minimum">
+  </div>
+  <div class="form-group">
+    <label for="inputPasswordConfirm" class="i18n">Confirm Password</label>
+    <input type="password" class="form-control i18n" id="inputPasswordConfirm" placeholder="Must match above">
+  </div>
+
+
+    <button class="btn btn-lg btn-primary btn-block i18n" onclick="doRegister();">Create account</button>
+    <br />
+    <p align="center"><span class="i18n">Already have an account?</span> <a href="#" role="button" data-target="signin" class="i18n">Sign in</a>.</p>
+    <p align="center"><span class="i18n">Forgot your password?</span> <a href="#" role="button" data-target="request_pwd_reset" class="i18n">Reset it</a>.</p>
+</div>
+
+<script type="text/javascript">
+    $(function() {
+        $("#inputEmail").focus();
+        $("input").change(function() {
+            if ($.inArray(this, $("input:invalid")) > -1) {
+                $(this).parents("tr:first").addClass("has-error");
+            }
+            else {
+                $(this).parents("tr:first").removeClass("has-error");
+            }
+        }).on("keypress", function(event) {
+            if (event.keyCode == 13) {
+                doRegister();
+            }
+        });
+    });
+
+    function resetForm() {
+        flashReset();
+        for (var id of ["#inputEmail", "#inputPassword", "#inputPasswordConfirm"]) {
+            $(id).parents("tr:first").removeClass("has-error");
+        }
+    }
+
+    function doRegister() {
+        function onSuccess(data, textStatus, jqXhr) {
+            mixpanel.track("Registered");
+            updateLayout(data.user);
+            flashSuccess(data.msg);
+        }
+        function onError(jqXhr, textStatus, errorThrown) {
+            mixpanel.track("Registration failed");
+            if (jqXhr.responseText.indexOf("email") > -1) {
+                $("#inputEmail").parents("tr:first").addClass("has-error");
+            }
+            if (jqXhr.responseText.indexOf("password") > -1) {
+                $("#inputPassword").parents("tr:first").addClass("has-error");
+                $("#inputPasswordConfirm").parents("tr:first").addClass("has-error");
+            }
+            flashError(jqXhr.responseText);
+        }
+        var data = {
+            email : $("#inputEmail").val(),
+            password : $("#inputPassword").val(),
+            password_confirmation : $("#inputPasswordConfirm").val()
+        };
+        var dest = getParameterByName("dest");
+        if (dest) {
+            data.dest = dest;
+        }
+        var settings = {
+            type: 'POST',
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify(data),
+            success: onSuccess,
+            error: onError
+        };
+
+        resetForm();
+        $.ajax("/user/signup", settings);
+
+        return false;
+    }
+</script>

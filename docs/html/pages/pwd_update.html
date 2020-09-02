@@ -1,0 +1,52 @@
+<div class="col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+    <h2 align="center">Change password</h2>
+  <div class="form-group">
+    <label for="currentPwd">Current password</label>
+    <input type="password" class="form-control" id="currentPwd" placeholder="Password">
+  </div>
+  <div class="form-group">
+    <label for="inputPassword">New Password</label>
+    <input type="password" class="form-control" id="inputPassword" placeholder="8 characters minimum">
+  </div>
+  <div class="form-group">
+    <label for="inputPasswordConfirm">Confirm New Password</label>
+    <input type="password" class="form-control" id="inputPasswordConfirm" placeholder="Must match above">
+  </div>
+
+    <button class="btn btn-lg btn-primary btn-block" onclick="updatePwd();">Save changes</button>
+</div>
+
+<script type="text/javascript">
+    $(function() {
+        $("#currentPwd").focus();
+        $("input").on("keypress", function (event) {
+            if (event.keyCode == 13) {
+                updatePwd();
+            }
+        });
+    });
+    function updatePwd() {
+        function onSuccess(data, textStatus, jqXhr) {
+            flashSuccess("Password updated");
+        }
+        function onError(jqXhr, textStatus, errorThrown) {
+            flashError(jqXhr.responseText);
+        }
+        var settings = {
+            type: 'POST',
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify({
+                old_password : $("#currentPwd").val(),
+                new_password : $("#inputPassword").val(),
+                new_password_confirmation : $("#inputPasswordConfirm").val()
+            }),
+            success: onSuccess,
+            error: onError
+        };
+        $("input").val("");
+        flashReset();
+        $.ajax("/user/password", settings);
+        return false;
+    }
+</script>
