@@ -407,6 +407,7 @@ function initI18n() {
 function initLayout() {
     activateAutoRefresh();
     startNotebook = getParameterByName("notebook");
+/*
     $.getJSON('/user', function(user) {
         sessionUser = user;
         updateLayout(user, {redirect: getPageFromUrl(), starting: true});
@@ -421,6 +422,10 @@ function initLayout() {
         }
         jqXhr.preventDefault = true;
     });
+*/
+    if (!sessionUser) {
+        updateLayout(null, {redirect: getPageFromUrl(), starting: true});
+    }
 
     $("body").on("click", "a[role=button]", function(event) {
         // don't mess with bfcache
