@@ -1,0 +1,115 @@
+{
+    "MLDB is proud to have been acquired by <a href=\"http://www.elementai.com\">Element<sup>AI</sup></a> to build upon the innovative work already being conducted on behalf of our many clients. Joining forces with Element<sup>AI</sup> will enable us to bring even more experience and expertise to our current projects and we look forward to the next chapter of world-changing innovation." : "MLDB est fier d’avoir été acquis par <a href=\"http://www.elementai.com\">Element<sup>AI</sup></a> pour poursuivre les initiatives d’innovation que nous réalisons au profit de nos nombreux clients. Joindre l’équipe de Element<sup>AI</sup> va nous permettre de fournir encore plus d’expérience et d’expertise à nos projets actuels et nous sommes impatients de débuter le prochain chapitre d’innovations qui changeront le monde.",
+
+    "For more information about our journey forward, you can check out the <a href=\"http://blog.mldb.ai/blog/posts/2017/02/elementai/\">blog post from MLDB CEO Jeremy Barnes</a>." : "Pour en savoir plus sur le voyage qui nous attend, vous pouvez consulter le <a href=\"http://blog.mldb.ai/blog/posts/2017/02/elementai/\">billet de blogue de Jeremy Barnes</a>, le PDG de MLDB.",
+
+    "MLDB is the Machine Learning Database" : "MLDB est <i>the Machine Learning Database</i>",
+    "MLDB is an <a href=\"https://github.com/mldbai/mldb\">open-source</a> database  designed for machine learning." :
+        "MLDB est une base de données en <a href=\"https://github.com/mldbai/mldb\">source libre</a> conçue pour l'apprentissage machine.",
+
+    "You can <a href=\"https://docs.mldb.ai/doc/#builtin/Running.md.html\">install it wherever you want</a> and send it commands over a <a href=\"https://docs.mldb.ai/doc/#builtin/WorkingWithRest.md.html\">RESTful API</a> to <br>store data, <a href=\"https://docs.mldb.ai/doc/#builtin/sql/Sql.md.html\">explore it using SQL</a>, then <a href=\"https://docs.mldb.ai/doc/#builtin/Algorithms.md.html\">train machine learning models</a> and <a href=\"https://docs.mldb.ai/doc/#builtin/functions/Application.md.html\">expose them as APIs</a>." :
+        "Vous pouvez <a href=\"https://docs.mldb.ai/doc/#builtin/Running.md.html\">l'installer où vous voulez</a> et y envoyer des commandes à travers un <a href=\"https://docs.mldb.ai/doc/#builtin/WorkingWithRest.md.html\">API REST</a> pour <br />entreposer des données, <a href=\"https://docs.mldb.ai/doc/#builtin/sql/Sql.md.html\">les explorer en utilisant du SQL</a>, puis <a href=\"https://docs.mldb.ai/doc/#builtin/Algorithms.md.html\">entraîner des modèles d'apprentissage machine</a> et <a href=\"https://docs.mldb.ai/doc/#builtin/functions/Application.md.html\">les exposer en tant qu'APIs</a>.",
+
+    "Try MLDB right now!" : "Essayez MLDB maintenant!",
+    "Speed" : "Rapidité",
+    "Scalability" : "Extensibilité",
+    "Open-Source" : "Source libre",
+    "Machine Learning" : "Apprentissage machine",
+    "Ease of Use" : "Facilité d'utilisation",
+    "Deployment" : "Déploiement",
+
+    "Train models <a href=\"https://github.com/szilard/benchm-ml/tree/master/z-other-tools\">faster than H20, Spark MLlib or scikit-learn</a>. Then call them over HTTP thousands of times per second." :
+        "Entrainez des modèles <a href=\"https://github.com/szilard/benchm-ml/tree/master/z-other-tools\">plus rapidement que H20, Spark MLlib ou scikit-learn</a>. Appelez-les ensuite à travers HTTP des milliers de fois par seconde.",
+
+    "Vertical scaling means you can <a href=\"https://docs.mldb.ai/doc/#builtin/Scaling.md.html\">use all the RAM and all the cores</a>. Process billions of data points on machines that cost $1/hr." :
+        "L'extensibilité verticale signifie que vous pouvez <a href=\"https://docs.mldb.ai/doc/#builtin/Scaling.md.html\">utiliser toute la mémoire vive et tous les coeurs de processeur</a>. Traitez des milliards de points de données sur des machines qui coûtent 1$/h.",
+
+    "The Community Edition is available on <a href=\"https://github.com/mldbai/mldb\">Github</a> under the Apache license. Come chat with us on <a href=\"https://gitter.im/mldbai/mldb\">Gitter</a>!" :
+        "La version de la communauté est disponible sur <a href=\"https://github.com/mldbai/mldb\">Github</a> sous la licence Apache. Venez clavarder avec nous sur  <a href=\"https://gitter.im/mldbai/mldb\">Gitter</a>!",
+
+    "SQL is still the best way to <a href=\"https://docs.mldb.ai/doc/#builtin/sql/Sql.md.html\">query and manipulate data</a>. But with <a href=\"https://docs.mldb.ai/doc/#builtin/datasets/Datasets.md.html\">support for millions of columns</a>, good thing it's schema-free." :
+        "SQL reste la meilleure manière d'<a href=\"https://docs.mldb.ai/doc/#builtin/sql/Sql.md.html\">interroger et manipuler les données</a>. Avec le <a href=\"https://docs.mldb.ai/doc/#builtin/datasets/Datasets.md.html\">support pour des millions de colonnes</a>, c'est une bonne chose que ce soit sans schéma.",
+
+    "Supervised or unsupervised, numbers or images or text, <a href=\"https://docs.mldb.ai/doc/#builtin/Algorithms.md.html\">we've got it covered</a>. We also support <a href=\"https://docs.mldb.ai/doc/#/v1/plugins/tensorflow/doc/TensorflowGraph.md.html\">TensorFlow graphs</a>." :
+        "Supervisé ou non, des nombres, des images ou du texte, <a href=\"https://docs.mldb.ai/doc/#builtin/Algorithms.md.html\">nous avons tout ce qu'il faut</a>. Nous supportons aussi les <a href=\"https://docs.mldb.ai/doc/#/v1/plugins/tensorflow/doc/TensorflowGraph.md.html\">graphes TensorFlow</a>.",
+
+    "Installation with <a href=\"https://docs.mldb.ai/doc/#builtin/Running.md.html\">Docker</a>, Data Science with <a href=\"https://docs.mldb.ai/doc/#builtin/Notebooks.md.html\">Jupyter</a>. Read and write text, CSV or JSON to &amp; from local storage or directly on S3 or HDFS." :
+        "Installation avec <a href=\"https://docs.mldb.ai/doc/#builtin/Running.md.html\">Docker</a>, science des données avec <a href=\"https://docs.mldb.ai/doc/#builtin/Notebooks.md.html\">Jupyter</a>. Lire et écrire du texte, CSV et JSON à partir de et vers de l'entreposage local ou directement sur S3 ou HDFS.",
+
+    "Uniform <a href=\"https://docs.mldb.ai/doc/#builtin/WorkingWithRest.md.html\">JSON-over-REST API</a>, accessible from any language. Comes with a <a href=\"https://docs.mldb.ai/ipy/notebooks/_tutorials/_latest/Using%20pymldb%20Tutorial.html\">nice Python wrapper called <code>pymldb</code></a>." :
+        "Un <a href=\"https://docs.mldb.ai/doc/#builtin/WorkingWithRest.md.html\">API JSON/REST</a> uniforme, accessible à partir de n'importe quel langage. Inclus un <a href=\"https://docs.mldb.ai/ipy/notebooks/_tutorials/_latest/Using%20pymldb%20Tutorial.html\">beau wrapper Python nommé <code>pymldb</code></a>.",
+
+    "As soon as you train a model, it's <a href=\"https://docs.mldb.ai/doc/#builtin/functions/Application.md.html\">available as an HTTP endpoint</a>. No deployment necessary." :
+        "Dès que vous entraînez un modèle, il est <a href=\"https://docs.mldb.ai/doc/#builtin/functions/Application.md.html\">disponible en tant que point d'accès HTTP</a>. Aucun déploiement nécessaire.",
+
+    "Learn More" : "En apprendre plus",
+    "Getting Started" : "Par où commencer",
+
+    "The easiest way to get started with MLDB is to <a href=\"#\" role=\"button\" data-target=\"signup\">launch a free 90-minute hosted MLDB session</a>. You'll be able to browse the live documentation and run and modify the demos yourself. You can even try running MLDB on some of your own data." :
+        "La manière la plus simple de commencer avec MLDB est de <a href=\"#\" role=\"button\" data-target=\"signup\">lancer une session MLDB hébergée gratuite pour 90 minutes</a>. Vous serez capable de naviguer la documentation en ligne et d'exécuter et de modifier les démos vous-même. Vous pouvez même essayer d'exécuter MLDB sur vos propres données.",
+
+    "Drop us a line at <a href=\"mailto:info@mldb.ai\">info@mldb.ai</a> or come chat with us on <a href=\"https://gitter.im/mldbai/mldb\">Gitter</a>!" :
+        "Envoyez-nous un courriel au <a href=\"mailto:info@mldb.ai\">info@mldb.ai</a> ou venez clavarder avec nous sur <a href=\"https://gitter.im/mldbai/mldb\">Gitter</a>!\n",
+
+    "Need help solving a machine learning or data science problem?<br>Check out our <a href=\"#\" role=\"button\" data-target=\"dsaas\">data science as a service</a> offering." :
+        "Besoin d'aide pour résoudre un problème d'apprentissage machine ou de science des données?<br>Regardez nos offres de <a href=\"#\" role=\"button\" data-target=\"dsaas\">services en science des données</a>.",
+
+    "Comments?" : "Commentaires?",
+    "Sign in" : "Se connecter",
+    "Sign up" : "S'enregistrer",
+    "Blog" : "Blogue",
+    "<a href=\"#\" role=\"button\" data-target=\"dsaas\" title=\"Data Science as a Service\">DSaaS</a>" :
+        "<a href=\"#\" role=\"button\" data-target=\"dsaas\" style=\"text-align: center; line-height: 1em; font-size: 90%;\">Services en<br/>Science des Données</a>",
+    "Data Science as a Service" : "Services en Science des Données",
+
+    "Machine learning can provide powerful ways to predict, personalize, alert, and make decisions. Building machine learning applications can be difficult and expensive and there needs to be robust data to drive effective predictions. Through our DSaaS (data science as a service) arm, MLDB.ai's data science team provides data and infrastructure audits and recommendations, isolates the type of personalized decisions you need, and develops applications on top of MLDB, the machine learning database, that addresses your needs for predictions and decisions with a meaningful impact on your business." :
+        "L'apprentissage machine peut fournir des moyens puissants de prédire, personnaliser, alerter et prendre des décisions. Construire des applications d'apprentissage machine peut être difficile et couteux et nécessite des données robustes pour mener à des prédictions efficaces. L’équipe en science des données de MLDB.ai fourni des audits et des recommandations à propos des données et de l'infrastructure, isole le type de décisions personnalisées dont vous avez besoin, et développe des applications propulsées par MLDB, <i>the Machine Learning Database<i>, qui répondent à vos besoins de prédictions et décisions qui ont un impact significatif sur votre entreprise.",
+
+    "Case Studies" : "Études de cas",
+    "<b>Online community management product</b> realized that human moderators were spending most of their time reviewing content that was falsely reported as bullying. MLDB.ai's data scientists developed a toxic content predictive model using NLP techniques that screened reports so that moderators only had to review content that was <i>too close to call</i>. This resulted in a 50% reduction in moderator workload while letting though only 5% of toxic messages. This is a     great example of human augmentation." :
+        "<b>Un produit de gestion de communautés en ligne</b> a réalisé que les modérateurs humains passaient la plupart de leur temps à réviser le contenu qui était faussement rapporté comme de l'intimidation. L'équipe en science des données de MLDB.ai a développé un modèle de prédiction du contenu toxique en utilisant des techniques de traitement du langage naturel qui filtre les plaintes pour que les modérateurs n'aient qu'à réviser le contenu qui est <i>trop difficile à déterminer</i>. Ceci a eu pour effet de réduire de 50% la charge de travail de modération en ne laissant passer que 5% des messages toxiques. C'est un bon exemple d'augmentation humaine.",
+
+    "<b>Flash Retailer</b> sending 3 million emails per day to customers with 30 different products, were segmenting users into audiences for content order. We developed a personalized e-mail offering for each user based on their behavior on their site which garnered a 20% increase in revenue." :
+        "<b>Un détaillant de ventes éclair</b> qui envoie 3 millions de courriels par jour à des clients avec 30 produits différents, segmentait les utilisateurs en audiences basées sur le contenu des commandes. Nous avons développé une offre de courriels personalisés pour chaque utilisateur basé sur leur comportement sur le site ce qui a généré une augmentation de 20% des revenus.",
+
+    "<b>Large telco</b> needed to serve the highest performing creative on their ad inventory. We developed a yield optimization solution to personalize the creative delivered for ad serving on their owned &amp; operated inventory, resulting in 50% lift on revenue." :
+        "<b>Une grande compagnie de télécommunications</b> avait besoin de servir leurs créatifs les plus performants de leur inventaire publicitaire. Nous avons développé une solution d'optimisation du revenu pour personnaliser les créatifs livrés pour servir les publicités sur leur inventaire possédé et opéré, ce qui a mené à une augmentation de 50% des revenus.",
+
+    "<b>Large Electronics Retailer</b> needed to understand the difference between converting and non-converting users. We conducted analyses into the drivers of customer behavior, and created deep analytic reports to generate insights not available in their DMP, which led to product creative adjustments and increased response rates on ad campaigns." :
+        "<b>Un grand détaillait d'électronique</b> avait besoin de comprendre la différence entre les utilisateurs qui convertissaient et ceux qui ne convertissaient pas. Nous avons analysé les comportements déterminants des utilisateurs et avons créé des rapports détaillés pour générer des aperçus qui ne sont pas disponibles dans leur plateforme de gestion des données (<i>DMP</i>), ce qui a mené à un ajustement des créatifs publicitaires et une augmentation des taux de réponse des campagnes publicitaires.",
+
+    "Contact us" : "Contactez-nous",
+
+    "Drop us a line at <a href=\"mailto:info@mldb.ai\">info@mldb.ai</a> if you would like to know more." :
+        "Envoyez-nous un courriel à <a href=\"mailto:info@mldb.ai\">info@mldb.ai</a> pour en savoir plus.",
+
+    "Terms of use" : "Termes d'utilisation",
+    "Create an MLDB.ai account" : "Créer un compte MLDB.ai",
+    "Your MLDB.ai account gives you instant access to a cloud-hosted MLDB session to try out the demos." :
+        "Votre compte MLDB.ai vous donne un accès instantané à des sessions MLDB hébergées dans le nuage pour essayer les démos.",
+
+    "You can also create a free trial license code to evaluate the <a href=\"https://docs.mldb.ai/doc/#builtin/Running.md.html\" target=\"_blank\">MLDB Enterprise Edition</a> running on your own hardware." :
+        "Vous pouvez aussi créer gratuitement un code de license pour évaluer <a href=\"https://docs.mldb.ai/doc/#builtin/Running.md.html\" target=\"_blank\">la version entreprise de MLDB</a> sur votre propre matériel.",
+    "Email address" : "Adresse courriel",
+    "Password" : "Mot de passe",
+    "Confirm Password" : "Confirmez le mot de passe",
+    "Already have an account?" : "Déjà un compte?",
+    "Reset it" : "Réinitialisez-le",
+    "Create account" : "Créer un compte",
+    "Forgot your password?" : "Oublié votre mot de passe?",
+    "MLDB.ai Terms of Use" : "Termes d'utilisation de MLDB.ai",
+    "MLDB Hub is a free service provided by <b>MLDB.ai</b> to enable anyone to easily try and evaluate <a href=\"http://mldb.ai/\" target=\"_blank\">MLDB, the Machine Learning Database</a>." :
+        "MLDB Hub est un service gratuit fourni par <b>MLDB.ai</b> pour permettre à quiconque de facilement essayer et évaluer <a href=\"http://mldb.ai/\" target=\"_blank\">MLDB, <i>the Machine Learning Database</i></a>.",
+    "By using this service, you agree that you will not use this service for any illegal or malicious purpose." :
+        "En utilisant ce service, vous convenez que vous ne l'utiliserez pas pour quelque objectif malicieux que ce soit.",
+    "MLDB.ai will not retain a copy of any data uploaded to this service after the session expires, but your email address and IP will be logged when you launch a session." :
+        "Une fois la session expirée, MLDB.ai ne conserve pas de copie des données que vous y aurez téléversées. Votre adresse courriel et adresse IP seront journalisées quand vous lancerez une session.",
+    "Sign in to MLDB.ai" : "Se connecter à MLDB.ai",
+    "Get instant access to an MLDB session to try the demos." : "Obtenez un accès instantané à une session MLDB pour essayer les démos.",
+    "Remember me" : "Rester connecté",
+    "Don't have an account?" : "Pas de compte?",
+    "Email" : "Courriel",
+    "8 characters minimum" : "minimum de 8 caractères",
+    "Must match above" : "Doit correspondre à ci-dessus",
+    "" : ""
+}

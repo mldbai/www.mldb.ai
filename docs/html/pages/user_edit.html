@@ -1,0 +1,65 @@
+<div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+
+<h2 align="center">User Edit</h2>
+<input type="hidden" id="userEditId"/>
+<div class="form-group">
+    <label for="email">Email address</label>
+    <input type="text" class="form-control" id="email" disabled="disabled">
+</div>
+
+<div class="form-group">
+    <label for="name">Name</label>
+    <input id="name" class="form-control" placeholder="Your full name (optional)">
+</div>
+
+<div class="form-group">
+    <label for="company">Affiliation</label>
+    <input id="company" class="form-control" placeholder="Company, school or institution (optional)">
+</div>
+
+<div class="form-group">
+    <label for="tier">Tier</label>
+    <select id="tier" class ="form-control">
+        <option value="FREE">Free</option>
+        <option value="PREMIUM">Premium</option>
+    </select>
+</div>
+
+<button class="btn btn-lg btn-primary btn-block" onclick="saveUserEdit();">Save</button>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        var userId = getParameterByName("id");
+        $.getJSON('/users/' + userId, function(data) {
+            $("#userEditId").val(data.id);
+            $("#email").val(data.email);
+            $("#name").val(data.name);
+            $("#company").val(data.company);
+            $("#tier").val(data.tier);
+        });
+    });
+
+    function saveUserEdit() {
+        function onSuccess(data, textStatus, jqXhr) {
+            flashSuccess("User updated.");
+        }
+        function onError(jqXhr, textStatus, errorThrown) {
+            msgBoxErrorFromJqXhr(jqXhr);
+        }
+        var settings = {
+            type: 'PUT',
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify({
+                name : $("#name").val(),
+                company : $("#company").val(),
+                tier : $("#tier").val()
+            }),
+            success: onSuccess,
+            error: onError
+        };
+        var userId = $("#userEditId").val();
+        $.ajax("/users/" + userId, settings);
+    }
+</script>

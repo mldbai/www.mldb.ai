@@ -1,0 +1,68 @@
+<div class="col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+    <h2 align="center">Password recovery</h2>
+
+  <div class="form-group">
+    <label for="inputEmail">Email address</label>
+    <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+    <p class="help-block">We will email you a link to reset your password.</p>
+
+  </div>
+
+    <button class="btn btn-lg btn-primary btn-block" onclick="resetPwd();">Send reset email</button>
+    <br />
+    <p align="center">Remembered your password? <a href="#" role="button" data-target="signin">Sign in</a>.</p>
+</div>
+
+<script type="text/javascript">
+    $(function() {
+        $("#inputEmail").focus();
+        $("input").change(function() {
+            if ($.inArray(this, $("input:invalid")) > -1) {
+                $(this).parents("tr:first").addClass("has-error");
+            }
+            else {
+                $(this).parents("tr:first").removeClass("has-error");
+            }
+        }).on("keypress", function(event) {
+            if (event.keyCode == 13) {
+                resetPwd();
+            }
+        });
+    });
+
+    function resetForm() {
+        flashReset();
+        $("#inputEmail").parents("tr:first").removeClass("has-error");
+    }
+
+    function resetPwd() {
+        function onSuccess(data) {
+            flashSuccess("Email sent.");
+        }
+        function onError(jqXhr, textStatus, errorThrown) {
+            if (jqXhr.responseText.indexOf("email") > -1) {
+                $("#inputEmail").parents("tr:first").addClass("has-error");
+            }
+            if (jqXhr.responseText.indexOf("password") > -1) {
+                $("#inputPassword").parents("tr:first").addClass("has-error");
+                $("#inputPasswordConfirm").parents("tr:first").addClass("has-error");
+            }
+            flashError(jqXhr.responseText);
+        }
+        var settings = {
+            type: 'POST',
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify({
+                email : $("#inputEmail").val(),
+            }),
+            success: onSuccess,
+            error: onError
+        };
+
+        resetForm();
+        $.ajax("/user/password/reset", settings);
+
+        return false;
+    }
+</script>

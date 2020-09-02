@@ -1,0 +1,152 @@
+@import url(//fonts.googleapis.com/css?family=Roboto:400,700|Roboto+Slab:400,700);
+
+p, li, th, td, dl, dd, input { font-family: "Roboto"; color: #333;
+  line-height: 1.5;}
+h1,h2,h3,h4,h5, .title { 
+  font-family: "Roboto Slab"; 
+  font-weight: bold;
+  margin-bottom: 15px;
+  margin-top: 25px;
+  line-height: 1.8;
+}
+h1 { font-size: 2em;}
+h2 { font-size: 1.5em;}
+h3 { font-size: 1.17em;}
+h4 { font-size: 1em;}
+a, a:visited, a:hover {color:#3A62AD;}
+
+code,pre { background: #EEE; color: #333;}
+
+pre {padding: 15px;    font-size: 16px;}
+
+dt {margin-top: 15px;}
+dd { margin-left: 10px; margin-top: 10px;}
+
+p.blurb {
+  margin-bottom: 25px;
+  font-size: 16px;
+}
+
+/* Space out content a bit */
+body {
+
+  padding-top: 20px;
+  padding-bottom: 20px;
+  text-rendering: optimizeLegibility;
+}
+
+.marketing { font-size: 18px;}
+
+.navbar-toggle .icon-bar {
+    background-color: #333;
+}
+
+.navbar-nav li a {
+    line-height: 30px;
+}
+
+.da-input input {
+    margin: 5px;
+}
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+}
+
+div.blog-post p {
+  margin-bottom: 25px;
+}
+
+div.blog-post li {
+  margin: 10px 0;
+}
+
+div.blog-post img {
+  display: block;
+    margin-left: auto;
+    margin-right: auto
+}
+
+/* Everything but the jumbotron gets side spacing for mobile first views */
+.header,
+.marketing,
+.footer {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+/* Custom page header */
+.header {
+  border-bottom: 1px solid #e5e5e5;
+}
+/* Make the masthead heading the same height as the navigation */
+.header h3 {
+  padding-bottom: 19px;
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: 40px;
+}
+
+/* Custom page footer */
+.footer {
+  padding-top: 19px;
+  color: #777;
+  border-top: 1px solid #e5e5e5;
+}
+
+/* Customize container */
+@media (min-width: 768px) {
+  .container {
+    max-width: 1000px;
+  }
+}
+.container-narrow > hr {
+  margin: 30px 0;
+}
+
+/* Main marketing message and sign up button */
+.jumbotron {
+  text-align: center;
+  border-bottom: 1px solid #e5e5e5;
+}
+.jumbotron .btn {
+  padding: 14px 24px;
+  font-size: 21px;
+}
+
+.button {background: #3A62AD;}
+
+.nav {font-size: 16px;}
+
+/* Supporting marketing content */
+
+.marketing p + h4 {
+  margin-top: 28px;
+}
+
+/* Responsive: Portrait tablets and up */
+@media screen and (min-width: 768px) {
+  /* Remove the padding we set earlier */
+  .header,
+  .marketing,
+  .footer {
+    padding-right: 0;
+    padding-left: 0;
+  }
+  /* Remove the bottom border on the jumbotron for visual effect */
+  .jumbotron {
+    border-bottom: 0;
+  }
+}
+
+.if_admin {
+    display: none;
+}
+
+.cursorPointer {
+    cursor: pointer;
+}
+
+.i18n {
+    display: none;
+}

@@ -1,0 +1,128 @@
+<div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+    <h2 align="center">My profile</h2>
+
+    <div class="form-group">
+        <label for="email">Email address</label>
+        <div class="input-group" id="emailInputGroup">
+            <input type="text" class="form-control" id="email">
+            <div class="input-group-addon"><span class="glyphicon" aria-hidden="true" id="verificationIcon"></span> <span id="verificationText"></span></div>
+        </div>
+
+        <p class="help-block hidden" id="emailHelpText">
+        You should have received an address verification email with a link to click on to verify your address. <a href="#" onclick="sendVerifyEmail('license_management');">Resend address verification email</a>. </p>
+
+    </div>
+
+    <p class="bg-warning hidden" id="updateWarning">
+        Updating your email address will set it to the "unverified" state. You will receive a new address verification email with a link to follow to verify your address.
+    </p>
+
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input id="name" class="form-control" placeholder="Your full name (optional)">
+    </div>
+
+    <div class="form-group">
+        <label for="company">Affiliation</label>
+        <input id="company" class="form-control" placeholder="Company, school or institution (optional)">
+    </div>
+
+    <button class="btn btn-lg btn-primary btn-block" onclick="updateProfile();">Save profile</button>
+    <br />
+    <p align="center">Want to change your password? <a href="#" role="button" data-target="pwd_update">Click here</a>.</p>
+</div>
+
+
+<script type="text/javascript">
+    $(function () {
+        $("#email").val(sessionUser.email);
+        $("#name").val(sessionUser.name);
+        $("#company").val(sessionUser.company);
+
+        $("input").on("keypress", function (event) {
+            if (event.keyCode == 13) {
+                updateProfile();
+            }
+        });
+
+        $("#email").on("input", function(data) {
+            var newEmail = $(this).val();
+            if (newEmail == sessionUser.email) {
+                $("#updateWarning").addClass("hidden");
+            }
+            else {
+                $("#updateWarning").removeClass("hidden");
+            }
+        });
+
+        function emailConfirmed() {
+            $("#emailInputGroup").addClass("has-success");
+            $("#verificationIcon").addClass("glyphicon-ok");
+            $("#verificationText").html("Verified");
+        }
+
+        if (sessionUser.confirmed_at) {
+            emailConfirmed();
+        }
+        else {
+            checkEmailVerificationStatus();
+        }
+    });
+
+    function updateProfile() {
+        function onSuccess(data, textStatus, jqXhr) {
+            updateLayout(data, getPageFromUrl());
+
+            if (data.email != sessionUser.email) {
+                $("#emailInputGroup").addClass("has-warning");
+                $("#verificationIcon").addClass("glyphicon-warning-sign");
+                $("#verificationText").html("Unverified");
+                $("#emailHelpText").removeClass("hidden");
+                checkEmailVerificationStatus();
+            }
+
+            flashSuccess("Profile updated.");
+        }
+        function onError(jqXhr, textStatus, errorThrown) {
+            msgBoxErrorFromJqXhr(jqXhr);
+        }
+        var settings = {
+            type: 'PUT',
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify({
+                email : $("#email").val(),
+                name : $("#name").val(),
+                company : $("#company").val()
+            }),
+            success: onSuccess,
+            error: onError
+        };
+        flashReset();
+        $.ajax("/user", settings);
+        return false;
+    }
+
+    function checkEmailVerificationStatus() {
+        $.getJSON("/user/email_verification/status", function (data) {
+            if (data.confirmation_email_state === "VERIFIED") {
+                emailConfirmed();
+            }
+            else {
+            $("#emailInputGroup").addClass("has-warning");
+            $("#verificationIcon").addClass("glyphicon-warning-sign");
+
+                var errorTag;
+                if (data.confirmation_email_state === "UNDELIVERABLE") {
+                    errorTag = "Undeliverable";
+                }
+                else {
+                    errorTag = "Unverified";
+                }
+
+                $("#verificationText").html(errorTag);
+                $("#emailHelpText").removeClass("hidden");
+            }
+        });
+    }
+</script>
